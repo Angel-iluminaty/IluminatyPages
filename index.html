@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Iluminaty School | Portal Transparente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/nsspJNkh/IMG-20260408-WA0085.jpg') center center / cover no-repeat;
+            opacity: 1;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            background: transparent;
+            border-radius: 3rem;
+            padding: 2rem 1.8rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            animation: floatGlow 4s ease-in-out infinite;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .titulo-principal {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+
+        .titulo-principal h1 {
+            font-size: 2.6rem;
+            background: linear-gradient(135deg, #FFE6B0, #FFB347, #FFD966);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(255, 180, 50, 0.4);
+            animation: titlePulse 2.2s infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            0% {
+                text-shadow: 0 0 2px rgba(255, 200, 80, 0.3);
+                letter-spacing: 2px;
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(255, 200, 80, 0.7);
+                letter-spacing: 3px;
+            }
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #f5efdf;
+            font-weight: 500;
+            border-top: 1px dashed rgba(255, 210, 100, 0.7);
+            display: inline-block;
+            width: auto;
+            margin-top: 0.5rem;
+            padding-top: 0.6rem;
+            font-size: 1rem;
+            opacity: 0.95;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
+        }
+
+        /* Estilo para la nueva fecha de fundación */
+        .fecha-fundacion {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #FFE6B0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            width: auto;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-top: 0.75rem;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 200, 80, 0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            font-family: monospace;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .card {
+            background: rgba(8, 5, 18, 0.4);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            transition: all 0.35s ease;
+            border: 1px solid rgba(255, 200, 80, 0.5);
+            overflow: hidden;
+            cursor: pointer;
+            animation: cardAppear 0.6s backwards;
+            animation-delay: calc(0.1s * var(--order, 0));
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            border-color: #FFD966;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 200, 80, 0.5);
+            background: rgba(20, 12, 36, 0.55);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.6rem;
+            background: linear-gradient(95deg, rgba(30, 20, 50, 0.55), rgba(15, 8, 28, 0.4));
+            border-bottom: 1px solid rgba(255, 200, 100, 0.5);
+        }
+
+        .icon-wrapper {
+            background: radial-gradient(circle at 30% 20%, #FFD966, #B87C10);
+            width: 55px;
+            height: 55px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 2px rgba(255,215,0,0.5);
+            transition: 0.2s;
+        }
+
+        .card:hover .icon-wrapper {
+            transform: rotate(3deg) scale(1.05);
+            box-shadow: 0 6px 16px gold;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(120deg, #FFEFC0, #FFD699);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            text-shadow: 0 0 2px rgba(0,0,0,0.2);
+        }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: #fff0cc;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-shadow: 0 0 2px rgba(0,0,0,0.4);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.5s ease, padding 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 1.8rem 1.8rem;
+        }
+
+        .card.open .expandable-content {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1rem 1.6rem 1.6rem 1.6rem;
+        }
+
+        .btn-enlace {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(95deg, #F5B041, #E67E22);
+            color: #0e0b1a;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 60px;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.25s;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-enlace:hover {
+            background: linear-gradient(95deg, #FFB347, #F39C12);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 160, 0, 0.5);
+            gap: 18px;
+        }
+
+        .btn-enlace:active {
+            transform: translateY(1px);
+        }
+
+        .enlace-mini {
+            font-size: 0.7rem;
+            word-break: break-all;
+            background: rgba(0,0,0,0.65);
+            padding: 8px 10px;
+            border-radius: 20px;
+            margin-top: 12px;
+            color: #ffe2b5;
+            text-align: center;
+            font-family: monospace;
+            backdrop-filter: blur(4px);
+        }
+
+        .temas-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tema-item {
+            background: rgba(255, 200, 80, 0.2);
+            border: 1px solid rgba(255, 200, 80, 0.5);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            color: #FFE6B0;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+
+        .tema-item:hover {
+            background: rgba(255, 200, 80, 0.4);
+            transform: scale(1.02);
+            border-color: #FFD966;
+        }
+
+        .temas-titulo {
+            color: #FFD966;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-seccion {
+            margin-bottom: 18px;
+        }
+
+        .admin-subtitulo {
+            color: #FFD966;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 12px 0 10px 0;
+            padding-left: 4px;
+            border-left: 3px solid #FFD966;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-nombre {
+            background: rgba(255, 200, 80, 0.15);
+            border: 1px solid rgba(255, 200, 80, 0.4);
+            border-radius: 25px;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            color: #FFEFC0;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .admin-nombre:hover {
+            background: rgba(255, 200, 80, 0.35);
+            transform: scale(1.02);
+            border-color: #FFD966;
+        }
+
+        .lista-admin {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .fundador-item {
+            background: linear-gradient(135deg, rgba(255, 200, 80, 0.3), rgba(255, 180, 50, 0.2));
+            border: 1px solid #FFD966;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            color: #FFF2CC;
+            font-weight: bold;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 6px rgba(255, 200, 80, 0.3);
+        }
+
+        .footer-grace {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.75rem;
+            color: #f5e6c4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 8px;
+            flex-wrap: wrap;
+            text-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+
+        .glow-text {
+            animation: softGlow 2s infinite alternate;
+        }
+
+        @keyframes softGlow {
+            0% { text-shadow: 0 0 1px #ffc285; }
+            100% { text-shadow: 0 0 8px #ffbc6e; }
+        }
+
+        @media (max-width: 550px) {
+            .glass-container {
+                padding: 1.3rem;
+            }
+            .card-header {
+                padding: 0.9rem 1.2rem;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+            .icon-wrapper {
+                width: 45px;
+                height: 45px;
+                font-size: 1.6rem;
+            }
+            .btn-enlace {
+                font-size: 0.9rem;
+                padding: 10px 14px;
+            }
+            .tema-item {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+            .admin-nombre {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+            }
+            .fundador-item {
+                font-size: 0.8rem;
+                padding: 6px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="glass-container">
+    <div class="titulo-principal">
+        <h1>✨ ILUMINATY SCHOOL ✨</h1>
+        <div class="subtitulo">✦ toca cada acceso para revelar el grupo y sé parte de nuestra comunidad ✦</div>
+    </div>
+
+    <div class="cards-container">
+        <div class="card" data-order="0" id="cardWhats1">
+            <div class="card-header">
+                <div class="icon-wrapper">💎</div>
+                <div>
+                    <div class="card-title">IPTV ILUMINATY</div>
+                    <div class="card-desc"> <span>🔮 canales exclusivos · calidad élite</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <a href="https://chat.whatsapp.com/DRRPRZtUeTFIJ3PWxHJwYG?mode=gi_t" target="_blank" rel="noopener noreferrer" class="btn-enlace">
+                    📱 UNIRME AL GRUPO
+                    <span>➡️</span>
+                </a>
+                <div class="enlace-mini">🔗 enlace directo: WhatsApp Iluminaty VIP</div>
+            </div>
+        </div>
+
+        <div class="card" data-order="1" id="cardWhats2">
+            <div class="card-header">
+                <div class="icon-wrapper">🎬</div>
+                <div>
+                    <div class="card-title">FREE ILUMINATY STREAMING</div>
+                    <div class="card-desc"> <span>⚡ acceso libre · streaming sin límites</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <a href="https://chat.whatsapp.com/LAda2SUtcv1KfCwntj3vmX?mode=gi_t" target="_blank" rel="noopener noreferrer" class="btn-enlace">
+                    🎥 ACCESO GRATUITO
+                    <span>✨</span>
+                </a>
+                <div class="enlace-mini">🔗 comunidad abierta · contenido libre iptv, activaciones, clases etc...</div>
+            </div>
+        </div>
+
+        <div class="card" data-order="2" id="cardTelegram">
+            <div class="card-header">
+                <div class="icon-wrapper">📡</div>
+                <div>
+                    <div class="card-title">TELEGRAM · ILUMINATY IPTV VIP</div>
+                    <div class="card-desc"> <span>🛸 canal privado · actualizaciones constantes</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <a href="https://t.me/+FlLAJatwxaA2NmIx" target="_blank" rel="noopener noreferrer" class="btn-enlace">
+                    ✈️ UNIRME A TELEGRAM
+                    <span>🔐</span>
+                </a>
+                <div class="enlace-mini">📡 enlace oficial · contenido iptv y termux</div>
+            </div>
+        </div>
+
+        <!-- NUEVA TARJETA: RESPALDO ILUMINATY -->
+        <div class="card" data-order="3" id="cardRespaldo">
+            <div class="card-header">
+                <div class="icon-wrapper">🛡️</div>
+                <div>
+                    <div class="card-title">RESPALDO ILUMINATY</div>
+                    <div class="card-desc"> <span>🔁 grupo de respaldo · nunca pierdas el contacto</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <a href="https://chat.whatsapp.com/L6KhjmuOlFoLi8r1gPxP3T?mode=gi_t" target="_blank" rel="noopener noreferrer" class="btn-enlace">
+                    📲 UNIRME AL RESPALDO
+                    <span>🔰</span>
+                </a>
+                <div class="enlace-mini">🛡️ enlace alternativo · comunidad segura y activa</div>
+            </div>
+        </div>
+
+        <div class="card" data-order="4" id="cardAprendizaje">
+            <div class="card-header">
+                <div class="icon-wrapper">📚</div>
+                <div>
+                    <div class="card-title">APRENDIZAJE</div>
+                    <div class="card-desc"> <span>🎓 domina herramientas y conviértete en experto</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <div class="temas-titulo">
+                    <span>📖</span> TEMAS QUE SE ENSEÑAN:
+                </div>
+                <div class="temas-lista">
+                    <span class="tema-item">🐧 Bineo</span>
+                    <span class="tema-item">📱 Termux</span>
+                    <span class="tema-item">🎬 Edición de video</span>
+                    <span class="tema-item">📺 Kodi</span>
+                    <span class="tema-item">📡 IPTV</span>
+                    <span class="tema-item">📦 Edición de APK</span>
+                    <span class="tema-item">🔧 APK Mod</span>
+                    <span class="tema-item">💰 Métodos IBAN</span>
+                    <span class="tema-item">🐍 Pydroid</span>
+                    <span class="tema-item">⚙️ Y muchos temas más...</span>
+                </div>
+                <div class="enlace-mini" style="margin-top: 16px;">🎓 Aprende con nosotros · comunidad en crecimiento</div>
+            </div>
+        </div>
+
+        <div class="card" data-order="5" id="cardAdministracion">
+            <div class="card-header">
+                <div class="icon-wrapper">👑</div>
+                <div>
+                    <div class="card-title">ADMINISTRACIÓN</div>
+                    <div class="card-desc"> <span>⚜️ conoce al equipo detrás de la escuela</span> </div>
+                </div>
+            </div>
+            <div class="expandable-content">
+                <div class="admin-seccion">
+                    <div class="admin-subtitulo">
+                        <span>👑</span> FUNDADOR
+                    </div>
+                    <div class="lista-admin">
+                        <span class="fundador-item">✨ Angel Exspectrus ✨</span>
+                    </div>
+                </div>
+                <div class="admin-seccion">
+                    <div class="admin-subtitulo">
+                        <span>👥</span> ADMINISTRADORES Y PROFESORES
+                    </div>
+                    <div class="lista-admin">
+                        <span class="admin-nombre">👩‍💻 Bety</span>
+                        <span class="admin-nombre">👩‍💻 Janny</span>
+                        <span class="admin-nombre">👩‍💻 Scan</span>
+                        <span class="admin-nombre">👩‍💻 Nicol</span>
+                        <span class="admin-nombre">👩‍💻 Abigail</span>
+                        <span class="admin-nombre">👨‍🔧 Mister x</span>
+                        <span class="admin-nombre">👨‍🔧 Percia</span>
+                        <span class="admin-nombre">👨‍🔧 Carlos</span>
+                    </div>
+                </div>
+                <div class="enlace-mini" style="margin-top: 16px;">🏆 Excelente equipo · siempre apoyando a la comunidad</div>
+            </div>
+        </div>
+    </div>
+            
+    <div class="footer-grace">
+        <span>🌟 Toca cualquier grupo para unirte 🌟</span>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <span class="glow-text">⚡ ILUMINATY SCHOOL ⚡</span>
+            <span class="fecha-fundacion">🏛️ Fundada el 04 de mayo del 2024 📅</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const cards = document.querySelectorAll('.card');
+        
+        function toggleCard(card) {
+            if(card.classList.contains('open')) {
+                card.classList.remove('open');
+            } else {
+                cards.forEach(otherCard => {
+                    if(otherCard !== card && otherCard.classList.contains('open')) {
+                        otherCard.classList.remove('open');
+                    }
+                });
+                card.classList.add('open');
+            }
+        }
+
+        cards.forEach((card, idx) => {
+            card.style.setProperty('--order', idx);
+            const headerDiv = card.querySelector('.card-header');
+            if(headerDiv) {
+                headerDiv.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleCard(card);
+                });
+            }
+            card.addEventListener('click', (e) => {
+                if(e.target.closest('.btn-enlace')) return;
+                if(e.target.closest('.enlace-mini')) return;
+                if(e.target.closest('a')) return;
+                if(e.target.closest('.tema-item')) return;
+                if(e.target.closest('.admin-nombre')) return;
+                if(e.target.closest('.fundador-item')) return;
+                toggleCard(card);
+            });
+            const btnInside = card.querySelector('.btn-enlace');
+            if(btnInside) {
+                btnInside.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const openParam = urlParams.get('open');
+        if(openParam !== null) {
+            const index = parseInt(openParam, 10);
+            if(!isNaN(index) && cards[index]) {
+                setTimeout(() => {
+                    toggleCard(cards[index]);
+                    cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 200);
+            }
+        }
+
+        const styleElem = document.createElement('style');
+        styleElem.textContent = `
+            .card {
+                transition: transform 0.25s ease, border-color 0.2s, box-shadow 0.3s;
+            }
+            .expandable-content {
+                transition: max-height 0.55s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.45s ease, padding 0.25s;
+            }
+            .btn-enlace {
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .tema-item {
+                transition: all 0.2s ease;
+                cursor: default;
+            }
+            .admin-nombre {
+                transition: all 0.2s ease;
+                cursor: default;
+            }
+            .fundador-item {
+                transition: all 0.2s ease;
+                cursor: default;
+            }
+        `;
+        document.head.appendChild(styleElem);
+    })();
+</script>
+</body>
+</html>
